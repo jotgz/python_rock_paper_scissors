@@ -44,6 +44,8 @@ def game_logic():
        
 
         print('\n')
+        print(f'Your Choice: {player_choice}')
+        print(f'Computer Choice: {computer_choice}')
         print(f'Player Score: {player_score}')
         print(f'Computer Score: {computer_score}')
         print('\n')

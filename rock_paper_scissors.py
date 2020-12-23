@@ -1,64 +1,64 @@
 import random
+from tkinter import *
 
-computer_score =  0
-player_score = 0
+# computer_score = 0
+# player_score = 0
 
-def game_logic():
-    while True:
-        global player_score
-        global computer_score
 
-        computer_options = ('Rock', 'Paper', 'Scissors')
-        computer_choice = random.choice(computer_options)
-        player_choice = input('What is your weapon? Rock, Paper or Scissors? ').capitalize()
-        
+def game():
 
-        if player_choice == computer_choice:
-            print('It \'s a draw!!!')
-                # Player Choosing Rock
-        elif player_choice == 'Rock':
+    computer_choice = random.choice(['Rock', 'Paper', 'Scissors'])
+    print(computer_choice)
+    text = ''
+
+    def player_pick(choice):
+        global text
+        if choice == 'Rock':
             if computer_choice == 'Scissors':
-                player_score += 1
-                print('You win this round!')
-            elif computer_choice == 'Paper':
-                computer_score += 1
-                print('The computer won this round!')
-
-                # Player Choosing Paper
-        elif player_choice == 'Paper':
-            if computer_choice == 'Rock':
-                player_score += 1
-                print('You win this round!')
-            elif computer_choice == 'Scissors':
-                computer_score += 1
-                print('The computer won this round!')
-
-                # Player Choosing Scissors
-        elif player_choice == 'Scissors':
+                text = f'You won! {choice} beats {computer_choice}'
             if computer_choice == 'Paper':
-                player_score += 1
-                print('You win this round!')
-            elif computer_choice == 'Rock':
-                computer_score += 1
-                print('The computer won this round!')
-       
+                text = f'You lost! {computer_choice} beats {choice}'
+            elif computer_choice == choice:
+                text = 'It\'s a tie!'
 
-        print('\n')
-        print(f'Your Choice: {player_choice}')
-        print(f'Computer Choice: {computer_choice}')
-        print(f'Player Score: {player_score}')
-        print(f'Computer Score: {computer_score}')
-        print('\n')
+        if choice == 'Paper':
+            if computer_choice == 'Rock':
+                text = f'You won! {choice} beats {computer_choice}'
+            if computer_choice == 'Scissors':
+                text = f'You lost! {computer_choice} beats {choice}'
+            elif computer_choice == choice:
+                text = 'It\'s a tie!'
 
-        continue_game = input("Would you like to play again? Press Y or N ").capitalize()
+        if choice == 'Scissors':
+            if computer_choice == 'Paper':
+                text = f'You won! {choice} beats {computer_choice}'
+            if computer_choice == 'Rock':
+                text = f'You lost! {computer_choice} beats {choice}'
+            elif computer_choice == choice:
+                text = 'It\'s a tie!'
 
-        print('\n')
-        
+        final_lbl.config(text=text)
+        return text
 
-        if continue_game == 'Y':
-            return game_logic()
-        elif continue_game == 'N':
-            print('Thanks for playing! Come again!!!')
+    app = Tk()
+    app.config(height=350, width=350)
+    app.title('Rock Paper Scissors')
+
+    lbl = Label(app, text='Choose rock, paper, or scissors')
+    lbl.place(relx=0.5, rely=0.1, anchor='center')
+
+    rock_button = Button(app, padx=30, pady=25, text='Rock', command=lambda: player_pick('Rock'))
+    paper_button = Button(app, padx=30, pady=25, text='Paper', command=lambda: player_pick('Paper'))
+    scissors_button = Button(app, padx=25, pady=25, text='Scissors', command=lambda: player_pick('Scissors'))
+
+    rock_button.place(relx=0.20, rely=0.25, anchor='center')
+    paper_button.place(relx=0.50, rely=0.25, anchor='center')
+    scissors_button.place(relx=0.80, rely=0.25, anchor='center')
+
+    global final_lbl
+    final_lbl = Label(app, text=text)
+    final_lbl.place(relx=0.5, rely=0.5, anchor='center')
+    app.mainloop()
 
 
-game_logic()
+game()
